@@ -125,9 +125,9 @@ function callAPI(senderID,city){
        try {
          var data = body.main;
 
-         sendTextMessage(senderID, city +"Now have temparature at "+ data.temp + "c ");
-        sendTextMessage(senderID,  city +"Now have maximum temparature at"+ data.temp_max + "c ");
-         sendTextMessage(senderID,  city +"Now have minimum temparature at"+ data.temp_min + "c ");
+         sendTextMessage(senderID, city +" Now have temparature at "+ data.temp + "c ");
+        sendTextMessage(senderID,  city +" Now have maximum temparature at "+ data.temp_max + "c ");
+         sendTextMessage(senderID,  city +" Now have minimum temparature at "+ data.temp_min + "c ");
        } catch(err) {
          console.error('error caught', err);
          sendTextMessage(senderID, "There was an error.");
