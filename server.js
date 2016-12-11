@@ -2,6 +2,27 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
+var http = require('http');
+var options = {
+  host: 'www.google.com',
+  path: '/index.html'
+};
+
+var req = http.get(options, function(res) {
+  console.log('STATUS: ' + res.statusCode);
+  console.log('HEADERS: ' + JSON.stringify(res.headers));
+
+  // Buffer the body entirely for processing as a whole.
+  var bodyChunks = [];
+  res.on('data', function(chunk) {
+    // You can process streamed parts here...
+    bodyChunks.push(chunk);
+  }).on('end', function() {
+    var body = Buffer.concat(bodyChunks);
+    console.log('BODY: ' + body);
+    // ...and/or process the entire body here.
+  })
+});
 
 app.use(bodyParser.json())
 app.set('port', (process.env.PORT || 4000))
@@ -51,7 +72,7 @@ function receivedMessage(event) {
   var recipientID = event.recipient.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
-
+  app.get()
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
@@ -116,6 +137,15 @@ function callSendAPI(messageData) {
       console.error(response);
       console.error(error);
     }
+  });
+}
+
+function callingAPI(){
+  request({
+    uri: 'http://api.openweathermap.org/data/2.5/weather?q=bangkok&APPID=002e6cfd23a240ad310aa6837efa338c',
+    method: 'GET'
+    json :
+
   });
 }
 
