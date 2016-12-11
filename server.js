@@ -65,7 +65,7 @@ function receivedMessage(event) {
     if (messageText === 'help') {
       sendTextMessage(senderID, "You can try name of city like 'London , Bangkok, Newyork'");
     }else{
-      sendTextMessage(senderID, "diedieideokdeokd");
+      sendTextMessage(senderID, "");
       sendTextMessage(senderID, callAPI(senderID,messageText));
     }
 
@@ -129,7 +129,7 @@ function callAPI(senderID,city){
           sendTextMessage(senderID,  city +" Now have minimum temparature at "+ data.temp_min + "c ")
        } catch(err) {
          console.error('error caught', err);
-         sendTextMessage(senderID, "There was an error.");
+         sendTextMessage(senderID, "No such a city name "+city+" please try again");
        }
      })
 }
