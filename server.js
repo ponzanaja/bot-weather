@@ -63,7 +63,7 @@ function receivedMessage(event) {
 
   if (messageText) {
     if (messageText === 'hello') {
-      sendTextMessage(senderID, "ควยเอ้ย ไม่รู้ request");
+      sendTextMessage(senderID, "");
     }
 
     // If we receive a text message, check to see if it matches a keyword
@@ -117,6 +117,22 @@ function callSendAPI(messageData) {
       console.error(error);
     }
   });
+}
+
+function callAPI(city){
+  var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +location+ '&units=metric&APPID=002e6cfd23a240ad310aa6837efa338c'
+     request({
+       url: weatherEndpoint,
+       json: true
+     }, function(error, response, body) {
+       try {
+         var data = body.main;
+         sendTextMessage(sender, "Today is " + data.temp + "c " + city);
+       } catch(err) {
+         console.error('error caught', err);
+         sendTextMessage(sender, "There was an error.");
+       }
+     })
 }
 
 app.listen(app.get('port'), function () {
