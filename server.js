@@ -60,10 +60,10 @@ function receivedMessage(event) {
 
   var messageText = message.text;
   var messageAttachments = message.attachments;
-
+  messageText = messageText.toLowerCase();
   if (messageText) {
-    if (messageText === 'hello') {
-      sendTextMessage(senderID, "");
+    if (messageText === 'help') {
+      sendTextMessage(senderID, "You can try name of city like 'London , Bangkok, Newyork'");
     }
 
     // If we receive a text message, check to see if it matches a keyword
@@ -120,7 +120,7 @@ function callSendAPI(messageData) {
 }
 
 function callAPI(city){
-  var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +location+ '&units=metric&APPID=002e6cfd23a240ad310aa6837efa338c'
+  var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +city+ '&units=metric&APPID=002e6cfd23a240ad310aa6837efa338c'
      request({
        url: weatherEndpoint,
        json: true
