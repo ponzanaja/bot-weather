@@ -124,7 +124,10 @@ function callAPI(senderID,city){
      }, function(error, response, body) {
        try {
          var data = body.main;
-         sendTextMessage(senderID, "Today is " + data.temp + "c " + city);
+
+         setTimeout(function(){ sendTextMessage(senderID, city +'Now have temparature at '+ data.temp + "c "); }, 1000);
+         setTimeout(function(){ sendTextMessage(senderID,  city +'Now have maximum temparature at'+ data.temp_max + "c "); }, 2000);
+         setTimeout(function(){ sendTextMessage(senderID,  city +'Now have minimum temparature at'+ data.temp_min + "c "); }, 3000);
        } catch(err) {
          console.error('error caught', err);
          sendTextMessage(senderID, "There was an error.");
