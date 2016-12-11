@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.get('/webhook', function(req, res) {
-  var key = 'EAAD1c1pnFCABAP1AZBITVWSpseC06wyIVpX6lKegAJ3UIk4uoBNHXI0ICVDUTmI6e2Ht8Hv3VFzMIAF32AR3kffF7VgsZBXRMzuRnplCRBpZCAauZCTyCsGUvWfrSfSkpJ7OxbgtT6EYglG7ZA8OtyBUuZCxGZB0jEgdBWlf7WYlAZDZD'
+  var key = 'EAAD1c1pnFCABAPcb8vpmMRZBr0vgVEbsciNaaXtpbeL8nFk5rilEntKZAqNzVotv3WQOpFgdmGZCHOPP9NllRCdOoB0JEbWivgCg5xx9RjZCYITEulYHfBbZCQs0eVQyhMF45KVYoLdjLLJcXyBuCVc77bw2ZBqTy1rBZAEo8PqRQZDZD'
   if (req.query['hub.verify_token'] === key) {
     res.send(req.query['hub.challenge'])
   }
@@ -65,7 +65,7 @@ function receivedMessage(event) {
     if (messageText === 'help') {
       sendTextMessage(senderID, "You can try name of city like 'London , Bangkok, Newyork'");
     }else{
-      sendTextMessage(senderID, "");
+      //sendTextMessage(senderID, "diedieideokdeokd");
       sendTextMessage(senderID, callAPI(senderID,messageText));
     }
 
@@ -97,7 +97,7 @@ function sendTextMessage(recipientId, messageText) {
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAAD1c1pnFCABAP1AZBITVWSpseC06wyIVpX6lKegAJ3UIk4uoBNHXI0ICVDUTmI6e2Ht8Hv3VFzMIAF32AR3kffF7VgsZBXRMzuRnplCRBpZCAauZCTyCsGUvWfrSfSkpJ7OxbgtT6EYglG7ZA8OtyBUuZCxGZB0jEgdBWlf7WYlAZDZD' },
+    qs: { access_token: 'EAAD1c1pnFCABAPcb8vpmMRZBr0vgVEbsciNaaXtpbeL8nFk5rilEntKZAqNzVotv3WQOpFgdmGZCHOPP9NllRCdOoB0JEbWivgCg5xx9RjZCYITEulYHfBbZCQs0eVQyhMF45KVYoLdjLLJcXyBuCVc77bw2ZBqTy1rBZAEo8PqRQZDZD' },
     method: 'POST',
     json: messageData
 
@@ -118,18 +118,16 @@ function callSendAPI(messageData) {
 
 function callAPI(senderID,city){
   var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +city+ '&units=metric&APPID=002e6cfd23a240ad310aa6837efa338c'
-    request({
+     request({
        url: weatherEndpoint,
        json: true
-     },function(error, response, body) {
+     }, function(error, response, body) {
        try {
          var data = body.main;
-          sendTextMessage(senderID, city +" Now have temparature at "+ data.temp + "c ")
-         sendTextMessage(senderID,  city +" Now have maximum temparature at "+ data.temp_max + "c ")
-          sendTextMessage(senderID,  city +" Now have minimum temparature at "+ data.temp_min + "c ")
+         sendTextMessage(senderID, "Today is " + data.temp + "c " + city);
        } catch(err) {
          console.error('error caught', err);
-         sendTextMessage(senderID, "No such a city name "+city+" please try again");
+         sendTextMessage(senderID, "There was an error.");
        }
      })
 }
