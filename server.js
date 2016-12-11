@@ -66,7 +66,7 @@ function receivedMessage(event) {
       sendTextMessage(senderID, "You can try name of city like 'London , Bangkok, Newyork'");
     }else{
       sendTextMessage(senderID, "diedieideokdeokd");
-      sendTextMessage(senderID, callAPI(messageText));
+      sendTextMessage(senderID, callAPI(senderID,messageText));
     }
 
     // If we receive a text message, check to see if it matches a keyword
@@ -116,7 +116,7 @@ function callSendAPI(messageData) {
   });
 }
 
-function callAPI(city){
+function callAPI(senderID,city){
   var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +city+ '&units=metric&APPID=002e6cfd23a240ad310aa6837efa338c'
      request({
        url: weatherEndpoint,
@@ -124,10 +124,10 @@ function callAPI(city){
      }, function(error, response, body) {
        try {
          var data = body.main;
-         sendTextMessage(sender, "Today is " + data.temp + "c " + city);
+         sendTextMessage(senderID, "Today is " + data.temp + "c " + city);
        } catch(err) {
          console.error('error caught', err);
-         sendTextMessage(sender, "There was an error.");
+         sendTextMessage(senderID, "There was an error.");
        }
      })
 }
