@@ -65,6 +65,7 @@ function receivedMessage(event) {
     if (messageText === 'help') {
       sendTextMessage(senderID, "You can try name of city like 'London , Bangkok, Newyork'");
     }else{
+      sendTextMessage(senderID, "diedieideokdeokd");
       sendTextMessage(senderID, callAPI(messageText));
     }
 
