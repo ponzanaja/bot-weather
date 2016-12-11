@@ -3,7 +3,7 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 var http = require('http');
-var options = {
+/*var options = {
   host: 'www.google.com',
   path: '/index.html'
 };
@@ -22,7 +22,7 @@ var req = http.get(options, function(res) {
     console.log('BODY: ' + body);
     // ...and/or process the entire body here.
   })
-});
+});*/
 
 app.use(bodyParser.json())
 app.set('port', (process.env.PORT || 4000))
