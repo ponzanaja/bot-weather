@@ -3,13 +3,34 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 
+/*var options = {
+  host: 'www.google.com',
+  path: '/index.html'
+};
+
+var req = http.get(options, function(res) {
+  console.log('STATUS: ' + res.statusCode);
+  console.log('HEADERS: ' + JSON.stringify(res.headers));
+
+  // Buffer the body entirely for processing as a whole.
+  var bodyChunks = [];
+  res.on('data', function(chunk) {
+    // You can process streamed parts here...
+    bodyChunks.push(chunk);
+  }).on('end', function() {
+    var body = Buffer.concat(bodyChunks);
+    console.log('BODY: ' + body);
+    // ...and/or process the entire body here.
+  })
+});*/
+
 app.use(bodyParser.json())
 app.set('port', (process.env.PORT || 4000))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-
+const key = 'EAAD1c1pnFCABAPcb8vpmMRZBr0vgVEbsciNaaXtpbeL8nFk5rilEntKZAqNzVotv3WQOpFgdmGZCHOPP9NllRCdOoB0JEbWivgCg5xx9RjZCYITEulYHfBbZCQs0eVQyhMF45KVYoLdjLLJcXyBuCVc77bw2ZBqTy1rBZAEo8PqRQZDZD'
 app.get('/webhook', function(req, res) {
-  var key = 'EAAD1c1pnFCABAPcb8vpmMRZBr0vgVEbsciNaaXtpbeL8nFk5rilEntKZAqNzVotv3WQOpFgdmGZCHOPP9NllRCdOoB0JEbWivgCg5xx9RjZCYITEulYHfBbZCQs0eVQyhMF45KVYoLdjLLJcXyBuCVc77bw2ZBqTy1rBZAEo8PqRQZDZD'
+
   if (req.query['hub.verify_token'] === key) {
     res.send(req.query['hub.challenge'])
   }
@@ -51,7 +72,7 @@ function receivedMessage(event) {
   var recipientID = event.recipient.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
-
+  app.get()
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
@@ -62,22 +83,16 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
-    if (messageText === 'hello') {
-      sendTextMessage(senderID, "ควยเอ้ย ไม่รู้ request");
+    if (messageText === 'help') {
+      sendTextMessage(senderID, "You can type name of city like 'London , Bangkok, Newyork' ");
     }
 
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
-    switch (messageText) {
-      case 'generic':
-        sendGenericMessage(senderID);
-        break;
 
-      default:
-        sendTextMessage(senderID, messageText);
-    }
+
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    sendTextMessage(senderID, "You can type name of city like 'London , Bangkok, Newyork' ");
   }
 }
 function sendGenericMessage(recipientId, messageText) {
@@ -100,7 +115,7 @@ function sendTextMessage(recipientId, messageText) {
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAAD1c1pnFCABAPcb8vpmMRZBr0vgVEbsciNaaXtpbeL8nFk5rilEntKZAqNzVotv3WQOpFgdmGZCHOPP9NllRCdOoB0JEbWivgCg5xx9RjZCYITEulYHfBbZCQs0eVQyhMF45KVYoLdjLLJcXyBuCVc77bw2ZBqTy1rBZAEo8PqRQZDZD' },
+    qs: { access_token: key },
     method: 'POST',
     json: messageData
 
@@ -117,6 +132,22 @@ function callSendAPI(messageData) {
       console.error(error);
     }
   });
+}
+
+function callAPI(city){
+  var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +location+ '&units=metric&APPID=002e6cfd23a240ad310aa6837efa338c'
+     request({
+       url: weatherEndpoint,
+       json: true
+     }, function(error, response, body) {
+       try {
+         var data = body.main;
+         sendTextMessage(sender, "Today is " + data.temp + "c " + city);
+       } catch(err) {
+         console.error('error caught', err);
+         sendTextMessage(sender, "There was an error.");
+       }
+     })
 }
 
 app.listen(app.get('port'), function () {
