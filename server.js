@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.get('/webhook', function(req, res) {
-  var key = 'EAAD1c1pnFCABAPcb8vpmMRZBr0vgVEbsciNaaXtpbeL8nFk5rilEntKZAqNzVotv3WQOpFgdmGZCHOPP9NllRCdOoB0JEbWivgCg5xx9RjZCYITEulYHfBbZCQs0eVQyhMF45KVYoLdjLLJcXyBuCVc77bw2ZBqTy1rBZAEo8PqRQZDZD'
+  var key = 'EAAD1c1pnFCABAP1AZBITVWSpseC06wyIVpX6lKegAJ3UIk4uoBNHXI0ICVDUTmI6e2Ht8Hv3VFzMIAF32AR3kffF7VgsZBXRMzuRnplCRBpZCAauZCTyCsGUvWfrSfSkpJ7OxbgtT6EYglG7ZA8OtyBUuZCxGZB0jEgdBWlf7WYlAZDZD'
   if (req.query['hub.verify_token'] === key) {
     res.send(req.query['hub.challenge'])
   }
@@ -97,7 +97,7 @@ function sendTextMessage(recipientId, messageText) {
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAAD1c1pnFCABAPcb8vpmMRZBr0vgVEbsciNaaXtpbeL8nFk5rilEntKZAqNzVotv3WQOpFgdmGZCHOPP9NllRCdOoB0JEbWivgCg5xx9RjZCYITEulYHfBbZCQs0eVQyhMF45KVYoLdjLLJcXyBuCVc77bw2ZBqTy1rBZAEo8PqRQZDZD' },
+    qs: { access_token: 'EAAD1c1pnFCABAP1AZBITVWSpseC06wyIVpX6lKegAJ3UIk4uoBNHXI0ICVDUTmI6e2Ht8Hv3VFzMIAF32AR3kffF7VgsZBXRMzuRnplCRBpZCAauZCTyCsGUvWfrSfSkpJ7OxbgtT6EYglG7ZA8OtyBUuZCxGZB0jEgdBWlf7WYlAZDZD' },
     method: 'POST',
     json: messageData
 
@@ -124,7 +124,10 @@ function callAPI(senderID,city){
      }, function(error, response, body) {
        try {
          var data = body.main;
-         sendTextMessage(senderID, "Today is " + data.temp + "c " + city);
+
+         setTimeout(function(){ sendTextMessage(senderID, city +'Now have temparature at '+ data.temp + "c "); }, 1000);
+         setTimeout(function(){ sendTextMessage(senderID,  city +'Now have maximum temparature at'+ data.temp_max + "c "); }, 2000);
+         setTimeout(function(){ sendTextMessage(senderID,  city +'Now have minimum temparature at'+ data.temp_min + "c "); }, 3000);
        } catch(err) {
          console.error('error caught', err);
          sendTextMessage(senderID, "There was an error.");
