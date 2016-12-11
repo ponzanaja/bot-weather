@@ -140,15 +140,6 @@ function callSendAPI(messageData) {
   });
 }
 
-function callingAPI(){
-  request({
-    uri: 'http://api.openweathermap.org/data/2.5/weather?q=bangkok&APPID=002e6cfd23a240ad310aa6837efa338c',
-    method: 'GET'
-    json :
-
-  });
-}
-
 app.listen(app.get('port'), function () {
   console.log('run at port', app.get('port'))
 })
