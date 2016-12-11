@@ -65,7 +65,7 @@ function receivedMessage(event) {
     if (messageText === 'help') {
       sendTextMessage(senderID, "You can try name of city like 'London , Bangkok, Newyork'");
     }else{
-      //sendTextMessage(senderID, "diedieideokdeokd");
+      sendTextMessage(senderID, "diedieideokdeokd");
       sendTextMessage(senderID, callAPI(senderID,messageText));
     }
 
@@ -118,13 +118,12 @@ function callSendAPI(messageData) {
 
 function callAPI(senderID,city){
   var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +city+ '&units=metric&APPID=002e6cfd23a240ad310aa6837efa338c'
-     request({
+    request({
        url: weatherEndpoint,
        json: true
-     }, function(error, response, body) {
+     },function(error, response, body) {
        try {
          var data = body.main;
-
          setTimeout(function(){ sendTextMessage(senderID, city +'Now have temparature at '+ data.temp + "c "); }, 1000);
          setTimeout(function(){ sendTextMessage(senderID,  city +'Now have maximum temparature at'+ data.temp_max + "c "); }, 2000);
          setTimeout(function(){ sendTextMessage(senderID,  city +'Now have minimum temparature at'+ data.temp_min + "c "); }, 3000);
