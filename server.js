@@ -3,6 +3,7 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 var http = require('http');
+
 /*var options = {
   host: 'www.google.com',
   path: '/index.html'
@@ -83,8 +84,8 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
-    if (messageText === 'hello') {
-      sendTextMessage(senderID, "ffrfrf");
+    if (messageText === 'help') {
+      sendTextMessage(senderID, "You can type name of city like 'London , Bangkok, Newyork' ");
     }
 
     // If we receive a text message, check to see if it matches a keyword
@@ -95,10 +96,10 @@ function receivedMessage(event) {
         break;
 
       default:
-        sendTextMessage(senderID, messageText);
+        sendTextMessage(senderID, callAPI(messageText));
     }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    sendTextMessage(senderID, "You can type name of city like 'London , Bangkok, Newyork' ");
   }
 }
 function sendGenericMessage(recipientId, messageText) {
@@ -138,6 +139,22 @@ function callSendAPI(messageData) {
       console.error(error);
     }
   });
+}
+
+function callAPI(city){
+  var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +location+ '&units=metric&APPID=002e6cfd23a240ad310aa6837efa338c'
+     request({
+       url: weatherEndpoint,
+       json: true
+     }, function(error, response, body) {
+       try {
+         var data = body.main;
+         sendTextMessage(sender, "Today is " + data.temp + "c " + city);
+       } catch(err) {
+         console.error('error caught', err);
+         sendTextMessage(sender, "There was an error.");
+       }
+     })
 }
 
 app.listen(app.get('port'), function () {
