@@ -2,7 +2,6 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
-var http = require('http');
 
 /*var options = {
   host: 'www.google.com',
@@ -90,13 +89,7 @@ function receivedMessage(event) {
 
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
-    switch (messageText) {
-      case 'generic':
-        sendGenericMessage(senderID);
-        break;
 
-      default:
-        sendTextMessage(senderID, callAPI(messageText));
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "You can type name of city like 'London , Bangkok, Newyork' ");
